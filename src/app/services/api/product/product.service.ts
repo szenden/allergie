@@ -14,8 +14,8 @@ import { BaseDto } from '../../../_models/BaseDto'
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type':  'application/json'
-  //   'Authorization': 'my-auth-token'
+    'Content-Type':  'application/json',
+    'Access-Control-Allow-Origin': '*'
   })
 };
 
@@ -36,12 +36,18 @@ export class ProductService {
   }
 
   public BarcodeScan(input: IProductRequest) : Observable<BaseDto<IProductDto>> {
-      this.productEndPoint = '/barcode';
+      this.productEndPoint = 'barcode';
 
-      return this.http.post<any>(`${environment.backendApiUrl}/${this.productEndPoint}`, input)
+      return this.http.post<any>(`${environment.backendApiUrl}/${this.productEndPoint}`, input, httpOptions)
           .pipe(map(response => {
               return response;
           }));
+  }
+
+  public BarcodeMockData(input: IProductRequest) : Observable<BaseDto<IProductDto>> {
+      this.productEndPoint = '/product.json';
+
+      return this.http.get<any>(`${environment.mockApiUrl}/${this.productEndPoint}`, httpOptions);
   }
 
 }

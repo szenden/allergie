@@ -2,23 +2,56 @@ export interface IProductRequest{
     Barcode: string;
 }
 
-export interface IProductDto {
-    Id: number;
-    Barcode: string;
-    ProductName: string;
-    Brands: string;
-    NutritionGrades: string;
-    ImageUrl: string;
-    Thumbnail: string;
-    KeyWords: string;
-    NutrientLevels: string;
-    Quantity: string;
-    Creator: string;
-    Nutriments: string;
-    Categories: string;
-    IngredientText: string;
-    CreatedOn: Date;
-    CreatedBy: string;
-    ModifiedOn: Date;
-    ModifiedBy?: any;
+export class IProductDto {
+    userInfo?: any;
+    productInfo: ProductInfo;
+    ingredients: Ingredient[];
+    additives: Additive[];
+    allergens: any[];
+}
+
+export interface ProductInfo {
+    id: number;
+    barcode: string;
+    productName: string;
+    brands: string;
+    nutritionGrades: string;
+    imageUrl: string;
+    thumbnail: string;
+    keyWords: string;
+    nutrientLevels: string;
+    quantity: string;
+    creator: string;
+    nutriments: string;
+    categories: string;
+    ingredientText: string;
+}
+
+export interface Ingredient {
+    ingredientId: number;
+    productId: number;
+    vegetarian: string;
+    text: string;
+    vegan: string;
+    ingreId: string;
+    rank: number;
+    percent: string;
+    hasSubIngredients: string;
+}
+
+export interface Additive {
+    addictiveId: number;
+    url: string;
+    name: string;
+    originalId: string;
+    products: number;
+    sameAs: string;
+}
+
+export interface Payload {
+    userInfo?: any;
+    productInfo: ProductInfo;
+    ingredients: Ingredient[];
+    additives: Additive[];
+    allergens: Additive[];
 }

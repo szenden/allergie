@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController, ToastController } from '@ionic/angular';
+
 import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProductService } from '../services/api/product/product.service';
-import { IProductRequest} from '../_models/ProductDto'
-import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tab2',
@@ -18,9 +17,9 @@ export class Tab2Page implements OnInit {
   error = '';
 
   constructor(
+    private navCtrl: NavController,
+    private toastCtrl: ToastController,
     private barcodeScanner: BarcodeScanner,
-    private productService: ProductService,
-    private router: Router,
     private route: ActivatedRoute
   ) {}
 
@@ -31,28 +30,38 @@ export class Tab2Page implements OnInit {
   }
 
   public scanBarcode(){
-    this.barcodeScanner.scan().then(barcodeData =>{
-      console.log('Brcode data', barcodeData);
-      // let productRequest : IProductRequest = { Barcode : barcodeData.text}
-
-      // var result = this.productService.BarcodeScan(productRequest)
-      // .pipe(first())
-      // .subscribe(
-      //   data => {
-      //       this.router.navigate([this.returnUrl]);
-      //   },
-      //   error => {
-      //       this.error = error;
-      //       this.loading = false;
-      //   });
-
-    }).catch(err => {
-      console.log('Error', err)
-    });
+    console.log("scan test.");
+    this.navigate("40822938"); 
+    // this.barcodeScanner.scan().then(barcodeData =>{
+    //   console.log('Brcode data', barcodeData);
+    //   if(barcodeData === null || barcodeData.text === "")
+    //     this.presentToast("Barcode not recognized");
+    //   else
+    //     this.navigate(barcodeData.text);  
+    // }).catch(err => {
+    //     this.presentToast(`${"Error: "}${err}`);
+    //   console.log('Error', err)
+    // });
   }
 
 
   public scanImage(){
 
+  }
+
+  public navigate(_barcode: string): void{
+    var url = `${"/product"}/${_barcode}`;
+    this.navCtrl.navigateForward(url); 
+  }
+
+  private async presentToast(_message) {
+    let toast = await this.toastCtrl.create({
+      message: _message,
+      duration: 3000,
+      position: 'bottom',
+      buttons: ['Dismiss']
+    });
+
+    await toast.present();
   }
 }

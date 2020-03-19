@@ -12,9 +12,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpErrorHandler }  from './services/http-error-handler.service';
+import { ProductComponent } from './product/product.component'
+import { NewsDetailComponent } from './news-detail/news-detail.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ProductComponent, NewsDetailComponent],
   entryComponents: [],
   imports: [
     BrowserModule, 
