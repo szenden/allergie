@@ -17,8 +17,8 @@
     Toggle Infinite Scroll
   </ion-button> -->
 
-  <ion-list>
-    <ion-item *ngFor='let item of dataDetails.payload'>
+  <ion-list *ngIf="isLoaded">
+    <ion-item *ngFor='let item of dataDetails.payload' (click)="navigate(item.articleId)" detail>
       <ion-thumbnail slot="start">
         <img src="{{item.urlToImage}}">
       </ion-thumbnail>

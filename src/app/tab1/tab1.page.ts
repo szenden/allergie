@@ -1,13 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, NavController } from '@ionic/angular';
 
 import { NewsService } from '../services/api/news/news.service';
 import { INewsRequest, NewsArticleDto} from '../_models/NewsDto'
 import { BaseDto } from '../_models/BaseDto'
 import { first } from 'rxjs/operators';
-import { Router, ParamMap, ActivatedRoute } from '@angular/router';
-import { Observable,Subscription } from 'rxjs';
-import { ThrowStmt } from '@angular/compiler';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-tab1',
@@ -21,36 +20,43 @@ export class Tab1Page implements OnInit {
   dataDetails : BaseDto<NewsArticleDto[]>;
   error = '';
   loading = false;
+  isLoaded = false;
   data:any;
   page : number;
   pageSize : number;
+  returnUrl: string;
 
   constructor(
     private newsService: NewsService,
+    private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
     private router: Router
   ) {
     this.data = [];
     this.page = 1; 
     this.pageSize = 25;
+  
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
 
-
-    // for (let i = 0; i < 25; i++) { 
-    //   this.data.push("Item number "+this.data.length);
-    // }
   }
 
   ngOnInit() {
     this.data.push(this.getNews());
   }
 
-  public getNews(){
+  public navigate(_id: number): void{
+    var url = `${"/news"}/${_id}`;
+    this.navCtrl.navigateForward(url); 
+  }
+
+  public async getNews(){
     let newsRequest : INewsRequest = { page: this.page, pageSize: this.pageSize}
 
-    var result = this.newsService.GetAllNews(newsRequest)
+    var result = await this.newsService.GetAllNews(newsRequest)
     .pipe(first())
     .subscribe(
       data => {
+        this.isLoaded = true;
           this.dataDetails = data;
       },
       error => {

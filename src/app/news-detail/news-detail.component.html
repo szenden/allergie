@@ -1,3 +1,37 @@
-<p>
-  news-detail works!
-</p>
+
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title *ngIf="isLoaded">{{article.payload.source}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content no-padding class="content" *ngIf="isLoaded">
+    <!--*********** Carousel Image header  ***********-->
+    <div class="detail-header">
+      <!-- image -->
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-auto>
+          <div><h3>{{article.payload.title}}</h3></div>
+          <div>
+            <ion-row>
+
+            </ion-row>
+          </div>
+        </ion-col>
+        <ion-col>
+
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <!-- <p>{{item.description}}</p> -->
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+</ion-content>

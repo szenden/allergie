@@ -39,6 +39,9 @@ export class NewsService {
     return this.http.get<any>(`${environment.backendApiUrl}/${this.endPoint}?page=${input.page}&pageSize=${input.pageSize}`, httpOptions);
   }
 
+  public GetAllNewsById(id: number) : Observable<BaseDto<NewsArticleDto>> {
+    return this.http.get<any>(`${environment.backendApiUrl}/${this.endPoint}/getbyid?id=${id}`, httpOptions);
+  }
 }
 
 

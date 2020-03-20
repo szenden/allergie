@@ -4,6 +4,7 @@ export interface INewsRequest{
 }
 
 export interface NewsArticleDto {
+    articleId: number;
     source: string;
     author: string;
     title: string;
