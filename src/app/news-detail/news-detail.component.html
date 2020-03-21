@@ -9,29 +9,28 @@
 </ion-header>
 
 <ion-content no-padding class="content" *ngIf="isLoaded">
-    <!--*********** Carousel Image header  ***********-->
-    <div class="detail-header">
-      <!-- image -->
-    </div>
     <ion-grid>
       <ion-row>
-        <ion-col col-auto>
-          <div><h3>{{article.payload.title}}</h3></div>
-          <div>
-            <ion-row>
-
-            </ion-row>
-          </div>
+        <ion-img [src]="article.payload.urlToImage"></ion-img>
+      </ion-row>
+      <ion-row>
+        <div><h6>{{article.payload.title}}</h6></div>
+      </ion-row>
+      <ion-row>
+        <ion-col>        
+          <div>{{article.payload.author}}</div>
         </ion-col>
         <ion-col>
-
+          <div>{{article.payload.publishedAt}}</div>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-            <!-- <p>{{item.description}}</p> -->
+            <p>{{article.payload.content}}</p>
         </ion-col>
       </ion-row>
-
+      <ion-row>
+        <div>url: {{article.payload.url}}</div>
+      </ion-row>
     </ion-grid>
 </ion-content>
