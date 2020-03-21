@@ -14,9 +14,18 @@ import { AppComponent } from './app.component';
 import { HttpErrorHandler }  from './services/http-error-handler.service';
 import { ProductComponent } from './product/product.component'
 import { NewsDetailComponent } from './news-detail/news-detail.component';
+import { LoginComponent } from './auth/login/login.component';
+import { ProfileComponent } from './auth/profile/profile.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, ProductComponent, NewsDetailComponent],
+  declarations: [
+    AppComponent, 
+    ProductComponent, 
+    NewsDetailComponent, 
+    LoginComponent,
+    ProfileComponent,
+    RegisterComponent],
   entryComponents: [],
   imports: [
     BrowserModule, 
