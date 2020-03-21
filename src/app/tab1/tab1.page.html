@@ -18,15 +18,17 @@
   </ion-button> -->
 
   <ion-list *ngIf="isLoaded">
-    <ion-item *ngFor='let item of dataDetails.payload' (click)="navigate(item.articleId)" detail>
-      <ion-thumbnail slot="start">
+    <ion-item *ngFor='let item of dataDetails.payload' (click)="navigate(item.articleId)">
+      <ion-card>
         <img src="{{item.urlToImage}}">
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{item.title}}</h2>
-        <h3>{{item.publishedAt}}</h3>
-        <p>{{item.description}}</p>
-      </ion-label>
+        <ion-card-header>
+          <ion-card-subtitle>{{item.publishedAt}}</ion-card-subtitle>
+          <ion-card-title>{{item.title}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          {{item.description}}        
+        </ion-card-content>
+      </ion-card>
     </ion-item>
   </ion-list>
 
