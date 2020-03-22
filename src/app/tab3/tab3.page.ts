@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 @Component({
   selector: 'app-tab3',
@@ -15,6 +17,7 @@ export class Tab3Page implements OnInit {
   constructor(
     private navCtrl: NavController,
     private activatedRoute: ActivatedRoute,
+    public auth: AngularFireAuth,
     private router: Router
   ) {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
@@ -32,8 +35,8 @@ export class Tab3Page implements OnInit {
   public emmergencyCall(){
     console.log("emergency call");
   }
-  
-  public logout(){
-    console.log("user logout");
+
+  logout() {
+    this.auth.auth.signOut();
   }
 }
