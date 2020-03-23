@@ -1,3 +1,40 @@
-<p>
-  profile works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Profile
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="saveProfile()">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="user">
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Personal information</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <p>Email: {{user.payload.email}}</p>
+      </ion-item>
+      <ion-item lines="none">
+        <p>First Name: {{user.payload.firstName}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+  <div *ngIf="allergies">
+    <ion-list>
+        <ion-list-header>
+          <ion-label>Allergies</ion-label>
+        </ion-list-header>
+    
+        <ion-item *ngFor="let allergy of allergies.payload">
+          <ion-label>{{allergy.name}}</ion-label>
+          <ion-toggle (ionChange)="setAllergy(allergy)" (ngModel)="allergies.payload" checked="{{allergy.isChecked}}"></ion-toggle>
+        </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

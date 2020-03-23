@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Scan
+      Product
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,16 +9,22 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Scan</ion-title>
+      <ion-title size="large">Product</ion-title>
     </ion-toolbar>
   </ion-header>
   <div id="container">
     <section>
-      <ion-button expand="block">Image</ion-button>
+      <ion-button expand="block">
+        <ion-icon slot="start" name="camera-outline"></ion-icon>
+        Image
+      </ion-button>
     </section>
       
     <section>
-      <ion-button expand="block" (click)="scanBarcode()">Barcode</ion-button>
+      <ion-button expand="block" (click)="scanBarcode()">
+        <ion-icon slot="start" name="barcode-outline"></ion-icon>
+        Barcode
+      </ion-button>
     </section>
   </div>
   <!-- <app-explore-container name="Scan page"></app-explore-container> -->

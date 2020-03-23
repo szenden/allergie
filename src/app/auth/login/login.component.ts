@@ -62,6 +62,7 @@ export class LoginComponent implements OnInit {
         let userInfo = newUser.additionalUserInfo;
         let userDetails = newUser.user;
         
+        this.storage.set('uid', JSON.stringify(userDetails.uid));
         this.storage.set('authUser', JSON.stringify(userDetails));
         if(userInfo.isNewUser){
             //Todo: create user profile
@@ -82,9 +83,9 @@ export class LoginComponent implements OnInit {
             var result = this.userService.CreateUser(this.user)
             .pipe(first())
             .subscribe(
-              data => {                  
-                  this.userDto = data;
-                  this.storage.set('userProfile', JSON.stringify(this.userDto));
+              data => {     
+                this.storage.set('userProfile', JSON.stringify(data));             
+                this.userDto = data;    
               },
               error => {
                   this.error = error;

@@ -54,7 +54,7 @@
         <h4>Additives</h4>
         <div *ngIf='scanProduct.payload.additives; let items'>
           <ion-item *ngFor='let item of items'>
-            {{item.text}}
+            {{item.name}}
           </ion-item>
           <ion-item *ngIf='items.length === 0'>No Results</ion-item>
         </div>

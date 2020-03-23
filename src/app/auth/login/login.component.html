@@ -1,12 +1,15 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>
-      Scan
+      Login
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Login</ion-title>
@@ -14,12 +17,20 @@
   </ion-header>
   <div id="container">
     <section>
-      <ion-button expand="block" (click)="loginWithGoogle()">Google</ion-button>
+      <ion-button expand="block" (click)="loginWithGoogle()" color="danger">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Google
+      </ion-button>
     </section>
       
     <section>
-      <ion-button expand="block" (click)="loginWithFacebook()">Facebook</ion-button>
+      <ion-button expand="block" (click)="loginWithFacebook()">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Facebook
+      </ion-button>
     </section>
   </div>
   <!-- <app-explore-container name="Scan page"></app-explore-container> -->
 </ion-content>
+
+

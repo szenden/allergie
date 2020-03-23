@@ -12,6 +12,16 @@ export interface IAllergyDto {
     allergensTags: string;
 }
 
+export interface IAllergy {
+    allergyId: number;
+    name: string;
+    isChecked: boolean;
+}
+
 export interface IListAllergyDto{
     allergies: IAllergyDto[]
+}
+
+export interface IListUserAllergyDto{
+    allergies: IAllergy[]
 }

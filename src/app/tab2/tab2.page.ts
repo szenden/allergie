@@ -31,7 +31,7 @@ export class Tab2Page implements OnInit {
 
   public scanBarcode(){
     console.log("scan test.");
-    this.navigate("40822938"); 
+    this.navigate("3017620422003"); 
     // this.barcodeScanner.scan().then(barcodeData =>{
     //   console.log('Brcode data', barcodeData);
     //   if(barcodeData === null || barcodeData.text === "")

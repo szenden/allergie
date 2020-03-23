@@ -26,7 +26,6 @@ export class NewsDetailComponent implements OnInit {
 
   ngOnInit() {
     this.articleId = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.articleId)
     this.getNews();
   }
 
