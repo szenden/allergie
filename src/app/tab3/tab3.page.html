@@ -17,7 +17,7 @@
       <ion-list-header>
         My Profile
       </ion-list-header>
-      <div *ngIf="!auth.user | async as user;">
+      <div *ngIf="!isLogin;">
         <ion-item lines="none"  (click)="pageNavigator('login')">
           <ion-icon name="log-in-outline" slot="start"></ion-icon>
           <ion-label>Login</ion-label>
@@ -57,7 +57,7 @@
         <ion-icon name="settings-outline" slot="start"></ion-icon>
         <ion-label>App settings</ion-label>
       </ion-item>
-      <div *ngIf="auth.user | async as user;">
+      <div *ngIf="isLogin">
         <ion-item lines="none" (click)="logout()">
           <ion-icon name="log-out-outline" slot="start"></ion-icon>
           <ion-label>Logout</ion-label>

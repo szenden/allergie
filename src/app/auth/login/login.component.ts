@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 import { IUserRequest, IUserDto } from '../../_models/UserDto';
 import { UserService } from '../../services/api/user/user.service';
 import { BaseDto } from '../../_models/BaseDto'
 import { first } from 'rxjs/operators';
+import { Storage } from '@ionic/storage';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +24,9 @@ export class LoginComponent implements OnInit {
   constructor(
     public userService: UserService,
     public auth: AngularFireAuth,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    private storage: Storage,
+    private navCtrl: NavController
   ) { }
 
   ngOnInit() {}
@@ -30,26 +34,35 @@ export class LoginComponent implements OnInit {
   loginWithGoogle() {
     this.presentLoadingDefault();
 
-    this.socialLogin(new auth.GoogleAuthProvider())
+    this.socialLogin(new auth.GoogleAuthProvider(), 'google')
     .then(data => {
       this.dismissLoading();
+
+      this.navigate();
     });
     // this.auth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
   
+  public navigate(): void{
+    var url = `${'tabs/tab2'}`;
+    this.navCtrl.navigateForward(url); 
+  }
+
   loginWithFacebook() {
-    this.socialLogin(new auth.FacebookAuthProvider());
+    this.socialLogin(new auth.FacebookAuthProvider(), 'facebook');
     // this.auth.auth.signInWithPopup(new auth.FacebookAuthProvider());
   }
   
-  private socialLogin(loginProvider: any){
+  private socialLogin(loginProvider: any, providerName: string){
       return this.auth.auth.signInWithPopup(
         loginProvider
       ).then((newUser) => {
+        this.storage.set('isLogin', true);
 
         let userInfo = newUser.additionalUserInfo;
         let userDetails = newUser.user;
-
+        
+        this.storage.set('authUser', JSON.stringify(userDetails));
         if(userInfo.isNewUser){
             //Todo: create user profile
             this.user =
@@ -57,26 +70,28 @@ export class LoginComponent implements OnInit {
               firstName : userDetails.displayName,
               email: userDetails.email,
               emailVerified: userDetails.emailVerified,
-              userUID: userDetails.uid,
-              provider: userDetails.providerId,
+              userUid: userDetails.uid,
+              provider: providerName,
               pictureUrl: userDetails.photoURL,
               lastName: "",
               locale: "",
-              allergies: null
+              allergyIds: []
             } 
 
             //Todo: make request to create user profile
             var result = this.userService.CreateUser(this.user)
             .pipe(first())
             .subscribe(
-              data => {
+              data => {                  
                   this.userDto = data;
+                  this.storage.set('userProfile', JSON.stringify(this.userDto));
               },
               error => {
                   this.error = error;
                   this.loading = false;
               });
         }
+        
       });
   }
 

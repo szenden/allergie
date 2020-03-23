@@ -3,11 +3,11 @@ export interface IUserRequest {
     emailVerified: boolean;
     firstName: string;
     lastName: string;
-    userUID: string;
+    userUid: string;
     provider: string;
     pictureUrl: string;
     locale: string;
-    allergies: number[];
+    allergyIds: number[];
 }
 
 export interface IUserDto extends IUserRequest {
