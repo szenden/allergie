@@ -11,6 +11,7 @@ import { environment } from '../../../../environments/environment';
 
 import { IUserRequest, IUserDto } from '../../../_models/UserDto';
 import { BaseDto } from '../../../_models/BaseDto'
+import { IAllergyDto, IListAllergyDto } from '../../../_models/AllergyDto'
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -45,4 +46,10 @@ export class UserService {
   public GetUserByUid(uid: string) : Observable<BaseDto<IUserDto>> {
     return this.http.get<any>(`${environment.backendApiUrl}/${this.endPoint}/getuserbyuid?uid=${uid}`, httpOptions);
   }
+
+  public GetAllergies() : Observable<BaseDto<IListAllergyDto>> {
+    this.endPoint = 'allergy';
+    return this.http.get<any>(`${environment.backendApiUrl}/${this.endPoint}/getall`, httpOptions);
+  }
+
 }

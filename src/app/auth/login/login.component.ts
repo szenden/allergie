@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-import { IUserRequest } from '../../_models/UserDto';
+import { IUserRequest, IUserDto } from '../../_models/UserDto';
+import { UserService } from '../../services/api/user/user.service';
+import { BaseDto } from '../../_models/BaseDto'
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -13,8 +16,11 @@ export class LoginComponent implements OnInit {
 
   user: IUserRequest;
   loading: any;
+  error = '';
+  userDto : BaseDto<IUserDto>;
 
   constructor(
+    public userService: UserService,
     public auth: AngularFireAuth,
     public loadingCtrl: LoadingController
   ) { }
@@ -27,7 +33,6 @@ export class LoginComponent implements OnInit {
     this.socialLogin(new auth.GoogleAuthProvider())
     .then(data => {
       this.dismissLoading();
-
     });
     // this.auth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
@@ -56,10 +61,21 @@ export class LoginComponent implements OnInit {
               provider: userDetails.providerId,
               pictureUrl: userDetails.photoURL,
               lastName: "",
-              locale: "" 
+              locale: "",
+              allergies: null
             } 
 
             //Todo: make request to create user profile
+            var result = this.userService.CreateUser(this.user)
+            .pipe(first())
+            .subscribe(
+              data => {
+                  this.userDto = data;
+              },
+              error => {
+                  this.error = error;
+                  this.loading = false;
+              });
         }
       });
   }
