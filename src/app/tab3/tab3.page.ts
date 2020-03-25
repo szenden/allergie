@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController, AlertController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
@@ -19,6 +19,7 @@ export class Tab3Page implements OnInit {
 
   isLogin = false;
   returnUrl: string;
+  settings: any;
 
   constructor(
     private navCtrl: NavController,
@@ -26,6 +27,8 @@ export class Tab3Page implements OnInit {
     public auth: AngularFireAuth,
     private storage: Storage,
     private callNumber: CallNumber,
+    public toastController: ToastController,
+    private alertCtrl: AlertController,
     private router: Router
   ) {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
@@ -51,9 +54,91 @@ export class Tab3Page implements OnInit {
     .catch(err => console.log('Error launching dialer', err));
   }
 
+  async setSettings() {
+    const alert = await this.alertCtrl.create({
+      header: 'App settings',
+      inputs: [
+        {
+          name: 'newsletter',
+          type: 'checkbox',
+          label: 'Allow Newsletter',
+          value: 'newsletter',
+          checked: true
+        },
+
+        {
+          name: 'notification',
+          type: 'checkbox',
+          label: 'Allow Push Notification',
+          value: 'notification'
+        },
+        {
+          name: 'location',
+          type: 'checkbox',
+          label: 'Allow Location',
+          value: 'location'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Ok',
+          handler: (data) => {
+            let settings = { settings : data}
+            this.storage.set("settings", data);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async forgotPassword() {
+    let alert = await this.alertCtrl.create({
+      header: 'Confirm purchase',
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Email',
+          type: 'email'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            this.resetPassword(data.email);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  resetPassword(email: string){
+    return this.auth.auth.sendPasswordResetEmail(email);
+  }
+
   public checkLogin(){
     this.storage.get('isLogin').then((val) => {
       this.isLogin = val;
+    })
+    this.storage.get('settings').then((val) => {
+      this.settings = val;
     })
   }
 
