@@ -48,11 +48,11 @@ export class ProductComponent implements OnInit {
   async ngOnInit() {
     this.barcode = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.barcode)
-    // await this.getGeolocation();
+    await this.getGeolocation();
     await this.getProduct();
 
     await this.platform.ready();
-    // await this.loadMap();
+    await this.loadMap();
   }
 
   ionViewDidLoad() {

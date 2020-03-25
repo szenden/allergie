@@ -31,10 +31,10 @@
       
       {{ scanProduct.payload.productInfo.ingredientText }}
  
-      <ion-item lines="none">
+      <!-- <ion-item lines="none">
         <ion-icon name="star-half" slot="start"></ion-icon>
         <ion-label>{{ scanProduct.payload.productInfo.nutrientLevels }}</ion-label>
-      </ion-item>
+      </ion-item> -->
       <ion-list *ngIf='scanProduct.payload.userAllergens; let items'>
         <ion-list-header>
           My Allergens
@@ -87,7 +87,7 @@
         </ion-list>
     </ion-card-content>
   </ion-card>
-  <!-- <div id="map_canvas">
-    <ion-button (click)="$event">Start demo</ion-button>
-  </div> -->
+  <div id="map_canvas">
+    <!-- <ion-button (click)="$event">Start demo</ion-button> -->
+  </div>
 </ion-content>
