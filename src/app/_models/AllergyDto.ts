@@ -10,6 +10,8 @@ export interface IAllergyDto {
     allergensFromIngredients: string;
     allergens: string;
     allergensTags: string;
+    potentialReactions: string;
+    remarks: string;
 }
 
 export interface IAllergy {

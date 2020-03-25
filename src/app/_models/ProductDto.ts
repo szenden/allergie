@@ -1,5 +1,8 @@
+import { IAllergyDto } from './AllergyDto';
+
 export interface IProductRequest{
     Barcode: string;
+    UserUid: string;
 }
 
 export class IProductDto {
@@ -7,7 +10,8 @@ export class IProductDto {
     productInfo: ProductInfo;
     ingredients: Ingredient[];
     additives: Additive[];
-    allergens: any[];
+    allergens: IAllergyDto[];
+    userAllergens: IAllergyDto[];
 }
 
 export interface ProductInfo {

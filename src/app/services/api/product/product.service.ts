@@ -37,7 +37,6 @@ export class ProductService {
 
   public BarcodeScan(input: IProductRequest) : Observable<BaseDto<IProductDto>> {
       this.productEndPoint = 'barcode';
-
       return this.http.post<any>(`${environment.backendApiUrl}/${this.productEndPoint}`, input, httpOptions)
           .pipe(map(response => {
               return response;

@@ -25,10 +25,15 @@ export class Tab3Page implements OnInit {
     private router: Router
   ) {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
+    //window.location.reload();
   }
 
-  ngOnInit(){
-    this.checkLogin();
+  async ngOnInit(){
+    await this.checkLogin();
+  }
+
+  async ionViewDidEnter(){
+    await this.checkLogin();
   }
 
   public pageNavigator(page: string){
@@ -53,7 +58,9 @@ export class Tab3Page implements OnInit {
   logout() {
     this.auth.auth.signOut().then(() =>{
       this.isLogin = false;
-      this.storage.remove('user');
+      this.storage.remove('authUser');//userProfile
+      this.storage.remove('userProfile');//
+      this.storage.remove('uid');
       this.storage.set('isLogin', false);
     });
   }

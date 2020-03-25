@@ -8,13 +8,22 @@
 </ion-header>
 <ion-content fullscreen class="ion-padding">
   <ion-card *ngIf="scanProduct">
-    <img [src]="scanProduct.payload.productInfo.imageUrl" class="info-img">
+    <div>
+      <ion-row>
+        <ion-col col-1></ion-col>
+        <ion-col col-10>
+          <img [src]="scanProduct.payload.productInfo.imageUrl" class="info-img">
+        </ion-col>
+        <ion-col col-1></ion-col>
+      </ion-row>
+      
+    </div>    
     <ion-card-header>
       <ion-card-title>
         {{ scanProduct.payload.productInfo.productName }}
       </ion-card-title>
       <ion-card-subtitle>
-        Brand : {{ scanProduct.payload.productInfo.brands }}, Barcode : {{scanProduct.payload.productInfo.barcode}}
+        Brand : {{ scanProduct.payload.productInfo.brands }}<br><br> Barcode : {{scanProduct.payload.productInfo.barcode}}
       </ion-card-subtitle>
     </ion-card-header>
 
@@ -26,42 +35,59 @@
         <ion-icon name="star-half" slot="start"></ion-icon>
         <ion-label>{{ scanProduct.payload.productInfo.nutrientLevels }}</ion-label>
       </ion-item>
-      <div class="itemList">
-          <h4>Ingredients</h4>
-          <div *ngIf='scanProduct.payload.ingredients; let items'>
-            <ion-item *ngFor='let item of items'>
-              {{item.text}}
-            </ion-item>
-            <ion-item *ngIf='items.length === 0'>No Results</ion-item>
-          </div>
-          <!-- <ion-item *ngFor="let ingredient of scanProduct.payload.ingredients">
-            {{ingredient.text}}
-          </ion-item> -->
-      </div>
-      <div class="itemList">
-          <h4>Allergens</h4>
-          <div *ngIf='scanProduct.payload.allergens; let items'>
-            <ion-item *ngFor='let item of items'>
-              {{item.text}}
-            </ion-item>
-            <ion-item *ngIf='items.length === 0'>No Results</ion-item>
-          </div>
-          <!-- <ion-item *ngFor="let allergy of scanProduct.payload.allergens">
-            {{allergy}}
-          </ion-item> -->
-      </div>
-      <div class="itemList">
-        <h4>Additives</h4>
-        <div *ngIf='scanProduct.payload.additives; let items'>
-          <ion-item *ngFor='let item of items'>
-            {{item.name}}
+      <ion-list *ngIf='scanProduct.payload.userAllergens; let items'>
+        <ion-list-header>
+          Mijn Allergens
+        </ion-list-header>
+        <div>
+          <ion-item *ngFor='let item of items' class="allergens">
+            Ingredient: {{item.name}} <br><br>
+            Potential reactions: {{item.potentialReactions}} <br><br>
+            Remarks: {{item.remarks}} <br><br>
+            Url: {{item.url}}
           </ion-item>
           <ion-item *ngIf='items.length === 0'>No Results</ion-item>
         </div>
-        <!-- <ion-item *ngFor="let additive of scanProduct.payload.additives">
-          {{additive}}
-        </ion-item> -->
-    </div>
+      </ion-list>
+      <ion-list>
+        <ion-list-header>
+          Allergens
+        </ion-list-header>
+        <div *ngIf='scanProduct.payload.allergens; let items'>
+          <ion-item *ngFor='let item of items' class="allergens">
+            Ingredient: {{item.name}} <br><br>
+            Potential reactions: {{item.potentialReactions}} <br><br>
+            Remarks: {{item.remarks}} <br><br>
+            Url: {{item.url}}
+          </ion-item>
+          <ion-item *ngIf='items.length === 0'>No Results</ion-item>
+        </div>
+      </ion-list>
+        <ion-list>
+          <ion-list-header>
+            Ingredients
+          </ion-list-header>
+          <div *ngIf='scanProduct.payload.ingredients; let items'>
+            <ion-item *ngFor='let item of items' lines="none">
+              {{item.text}}
+            </ion-item>
+            <ion-item *ngIf='items.length === 0'>No Results</ion-item>
+          </div>
+        </ion-list>
+        <ion-list>
+          <ion-list-header>
+            Additives
+          </ion-list-header>
+          <div *ngIf='scanProduct.payload.additives; let items'>
+            <ion-item *ngFor='let item of items'>
+              {{item.name}}
+            </ion-item>
+            <ion-item *ngIf='items.length === 0'>No Results</ion-item>
+          </div>
+        </ion-list>
     </ion-card-content>
   </ion-card>
+  <!-- <div id="map_canvas">
+    <ion-button (click)="$event">Start demo</ion-button>
+  </div> -->
 </ion-content>
