@@ -10,6 +10,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner/ngx'
 import { IonicStorageModule } from '@ionic/storage';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { GoogleMaps } from '@ionic-native/google-maps/ngx';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -53,6 +54,7 @@ import { from } from 'rxjs';
     SplashScreen,
     GoogleMaps,
     Geolocation,
+    CallNumber,
     BarcodeScanner,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     HttpErrorHandler

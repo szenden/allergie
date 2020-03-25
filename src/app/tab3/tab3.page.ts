@@ -6,6 +6,9 @@ import { auth } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { Storage } from '@ionic/storage';
+import { CallNumber } from '@ionic-native/call-number/ngx';
+
+import {environment} from '../../environments/environment'
 
 @Component({
   selector: 'app-tab3',
@@ -22,6 +25,7 @@ export class Tab3Page implements OnInit {
     private activatedRoute: ActivatedRoute,
     public auth: AngularFireAuth,
     private storage: Storage,
+    private callNumber: CallNumber,
     private router: Router
   ) {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
@@ -42,7 +46,9 @@ export class Tab3Page implements OnInit {
   }
 
   public emmergencyCall(){
-    console.log("emergency call");
+    this.callNumber.callNumber(environment.emergencyNumber, true)
+    .then(res => console.log('Launched dialer!', res))
+    .catch(err => console.log('Error launching dialer', err));
   }
 
   public checkLogin(){
