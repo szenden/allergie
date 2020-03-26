@@ -30,18 +30,18 @@ export class Tab2Page implements OnInit {
   }
 
   public scanBarcode(){
-    console.log("scan test.");
-    this.navigate("8718452320523"); //5411188115557,3017620422003
-    // this.barcodeScanner.scan().then(barcodeData =>{
-    //   console.log('Brcode data', barcodeData);
-    //   if(barcodeData === null || barcodeData.text === "")
-    //     this.presentToast("Barcode not recognized");
-    //   else
-    //     this.navigate(barcodeData.text);  
-    // }).catch(err => {
-    //     this.presentToast(`${"Error: "}${err}`);
-    //   console.log('Error', err)
-    // });
+    // console.log("scan test.");
+    // this.navigate("7612100018477"); //5411188115557,3017620422003
+    this.barcodeScanner.scan().then(barcodeData =>{
+      console.log('Brcode data', barcodeData);
+      if(barcodeData === null || barcodeData.text === "")
+        this.presentToast("Barcode not recognized");
+      else
+        this.navigate(barcodeData.text);  
+    }).catch(err => {
+        this.presentToast(`${"Error: "}${err}`);
+      console.log('Error', err)
+    });
   }
 
 

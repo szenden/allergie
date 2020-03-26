@@ -29,17 +29,18 @@ export class LoginComponent implements OnInit {
     private navCtrl: NavController
   ) { }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    await this.handleLoginRedirect();
+  }
+
+  async ionViewDidEnter(){
+    // await this.handleLoginRedirect();
+  }
 
   loginWithGoogle() {
     this.presentLoadingDefault();
-
-    this.socialLogin(new auth.GoogleAuthProvider(), 'google')
-    .then(data => {
-      this.dismissLoading();
-
-      this.navigate();
-    });
+    this.socialLogin(new auth.GoogleAuthProvider(), 'google');
+    this.dismissLoading();
     // this.auth.auth.signInWithPopup(new auth.GoogleAuthProvider());
   }
   
@@ -49,51 +50,57 @@ export class LoginComponent implements OnInit {
   }
 
   loginWithFacebook() {
+    this.presentLoadingDefault();
     this.socialLogin(new auth.FacebookAuthProvider(), 'facebook');
     // this.auth.auth.signInWithPopup(new auth.FacebookAuthProvider());
   }
   
   private socialLogin(loginProvider: any, providerName: string){
-      return this.auth.auth.signInWithPopup(
-        loginProvider
-      ).then((newUser) => {
+      this.auth.auth.signInWithRedirect(loginProvider);
+  }
+
+  private async handleLoginRedirect(){
+    await this.auth.auth.getRedirectResult().then(result => {
+      if (result.user) {
+        console.log(result)
         this.storage.set('isLogin', true);
 
-        let userInfo = newUser.additionalUserInfo;
-        let userDetails = newUser.user;
+        let userInfo = result.additionalUserInfo;
+        let userDetails = result.user;
         
         this.storage.set('uid', JSON.stringify(userDetails.uid));
         this.storage.set('authUser', JSON.stringify(userDetails));
         if(userInfo.isNewUser){
-            //Todo: create user profile
-            this.user =
-            {
-              firstName : userDetails.displayName,
-              email: userDetails.email,
-              emailVerified: userDetails.emailVerified,
-              userUid: userDetails.uid,
-              provider: providerName,
-              pictureUrl: userDetails.photoURL,
-              lastName: "",
-              locale: "",
-              allergyIds: []
-            } 
+          //Todo: create user profile
+              this.user =
+              {
+                firstName : userDetails.displayName,
+                email: userDetails.email,
+                emailVerified: userDetails.emailVerified,
+                userUid: userDetails.uid,
+                provider: userInfo.providerId,
+                pictureUrl: userDetails.photoURL,
+                lastName: userInfo.providerId,
+                locale: "",
+                allergyIds: []
+              } 
 
-            //Todo: make request to create user profile
-            var result = this.userService.CreateUser(this.user)
-            .pipe(first())
-            .subscribe(
-              data => {     
-                this.storage.set('userProfile', JSON.stringify(data));             
-                this.userDto = data;    
-              },
-              error => {
-                  this.error = error;
-                  this.loading = false;
-              });
-        }
-        
-      });
+              //Todo: make request to create user profile
+              this.userService.CreateUser(this.user)
+              .pipe(first())
+              .subscribe(
+                data => {     
+                  this.storage.set('userProfile', JSON.stringify(data));             
+                  this.userDto = data;    
+                },
+                error => {
+                    this.error = error;
+                    this.loading = false;
+                });
+          }
+          //navigate
+          this.navigate();
+      }});
   }
 
   public async presentLoadingDefault() {

@@ -20,6 +20,8 @@ export class Tab3Page implements OnInit {
   isLogin = false;
   returnUrl: string;
   settings: any;
+  public user: firebase.User;
+  public authState$: Observable<firebase.User>;
 
   constructor(
     private navCtrl: NavController,
@@ -33,14 +35,22 @@ export class Tab3Page implements OnInit {
   ) {
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/';
     //window.location.reload();
+    this.user = null;
+    this.authState$ = auth.authState;
+    this.authState$.subscribe( (user: firebase.User) => {
+      if (user !== null) {
+        this.user = user;
+        this.isLogin = true;
+      }
+    });
   }
 
   async ngOnInit(){
-    await this.checkLogin();
+    // await this.checkLogin();
   }
 
   async ionViewDidEnter(){
-    await this.checkLogin();
+    // await this.checkLogin();
   }
 
   public pageNavigator(page: string){
@@ -48,10 +58,10 @@ export class Tab3Page implements OnInit {
     this.navCtrl.navigateForward(url); 
   }
 
-  public emmergencyCall(){
-    this.callNumber.callNumber(environment.emergencyNumber, true)
-    .then(res => console.log('Launched dialer!', res))
-    .catch(err => console.log('Error launching dialer', err));
+  public async emmergencyCall(){
+    await this.callNumber.callNumber(environment.emergencyNumber, true);
+    // .then(res => console.log('Launched dialer!', res))
+    // .catch(err => console.log('Error launching dialer', err));
   }
 
   async setSettings() {
@@ -133,14 +143,14 @@ export class Tab3Page implements OnInit {
     return this.auth.auth.sendPasswordResetEmail(email);
   }
 
-  public checkLogin(){
-    this.storage.get('isLogin').then((val) => {
-      this.isLogin = val;
-    })
-    this.storage.get('settings').then((val) => {
-      this.settings = val;
-    })
-  }
+  // public checkLogin(){
+  //   this.storage.get('isLogin').then((val) => {
+  //     this.isLogin = val;
+  //   })
+  //   this.storage.get('settings').then((val) => {
+  //     this.settings = val;
+  //   })
+  // }
 
   private isUserLoggedIn(){
     return this.auth.authState.pipe(first()).toPromise();

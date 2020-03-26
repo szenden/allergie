@@ -18,6 +18,7 @@ import {
   Environment
 } from '@ionic-native/google-maps/ngx';
 import { Storage } from '@ionic/storage';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-product',
@@ -35,31 +36,69 @@ export class ProductComponent implements OnInit {
   map: GoogleMap;
   lon : number;
   lat : number;
+  public user: firebase.User;
+  public authState$: Observable<firebase.User>;
+  isLogin = false;
+  uid: string = "";
 
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private geolocation: Geolocation,
     private platform: Platform,
+    public auth: AngularFireAuth,
     private storage: Storage,
     private router: Router
-  ) { }
+  ) { 
+
+  }
 
   async ngOnInit() {
     this.barcode = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.barcode)
-    await this.getGeolocation();
+    
+    // await this.getGeolocation();
     await this.getProduct();
 
+    // await this.platform.ready();
+    // await this.loadMap();
+  }
+
+  async ionViewDidLoad() {
+    await this.getGeolocation();
     await this.platform.ready();
     await this.loadMap();
   }
 
-  ionViewDidLoad() {
-    
+  private async getProduct(){
+    this.user = null;
+    this.authState$ = this.auth.authState;
+    this.authState$.subscribe( (user: firebase.User) => {
+      if (user !== null) {
+        this.user = user;
+        this.uid = user.uid.replace(/^"(.+(?="$))"$/, '$1');
+        this.isLogin = true;
+      }
+      let productRequest : IProductRequest = { 
+        Barcode : this.barcode,
+        UserUid : this.uid
+      }
+
+      var result = this.productService.BarcodeScan(productRequest)
+      .pipe(first())
+      .subscribe(
+        data => {
+          console.log(data)
+            this.scanProduct = data;
+        },
+        error => {
+            this.error = error;
+            this.loading = false;
+        });
+      });
   }
 
-  private async getProduct(){
+  private async getProduct2(){
+    
     await this.storage.get('uid').then((val) =>{
       if(val !== null)
         val = val.replace(/^"(.+(?="$))"$/, '$1');
