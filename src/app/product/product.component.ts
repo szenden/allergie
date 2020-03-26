@@ -36,8 +36,8 @@ export class ProductComponent implements OnInit {
   map: GoogleMap;
   lon : number;
   lat : number;
-  public user: firebase.User;
-  public authState$: Observable<firebase.User>;
+  public user: any;
+  public authState$: Observable<any>;
   isLogin = false;
   uid: string = "";
 
@@ -72,7 +72,7 @@ export class ProductComponent implements OnInit {
   private async getProduct(){
     this.user = null;
     this.authState$ = this.auth.authState;
-    this.authState$.subscribe( (user: firebase.User) => {
+    this.authState$.subscribe( (user: any) => {
       if (user !== null) {
         this.user = user;
         this.uid = user.uid.replace(/^"(.+(?="$))"$/, '$1');

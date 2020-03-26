@@ -20,8 +20,8 @@ export class Tab3Page implements OnInit {
   isLogin = false;
   returnUrl: string;
   settings: any;
-  public user: firebase.User;
-  public authState$: Observable<firebase.User>;
+  public user: any;
+  public authState$: Observable<any>;
 
   constructor(
     private navCtrl: NavController,
@@ -37,7 +37,7 @@ export class Tab3Page implements OnInit {
     //window.location.reload();
     this.user = null;
     this.authState$ = auth.authState;
-    this.authState$.subscribe( (user: firebase.User) => {
+    this.authState$.subscribe( (user: any) => {
       if (user !== null) {
         this.user = user;
         this.isLogin = true;

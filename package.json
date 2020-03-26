@@ -31,9 +31,8 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
     "call-number": "^1.0.1",
-    "cordova-android": "8.1.0",
+    "cordova-android": "^8.1.0",
     "cordova-browser": "6.0.0",
-    "cordova-plugin-firebase": "^2.0.5",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.6.2",
     "cordova-sqlite-storage": "^5.0.0",
@@ -87,7 +86,6 @@
         "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
       },
       "cordova-plugin-ionic-keyboard": {},
-      "cordova-plugin-firebase": {},
       "cordova-sqlite-storage": {},
       "cordova-plugin-geolocation": {},
       "cordova-plugin-googlemaps": {
@@ -97,8 +95,8 @@
       "mx.ferreyra.callnumber": {}
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
