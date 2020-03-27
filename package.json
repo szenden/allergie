@@ -12,6 +12,9 @@
     "e2e": "ng e2e"
   },
   "private": true,
+  "resolutions": {
+    "@babel/preset-env": "^7.8.7"
+  },
   "dependencies": {
     "@angular/common": "~8.2.14",
     "@angular/core": "~8.2.14",
@@ -31,13 +34,14 @@
     "@ionic/angular": "^5.0.0",
     "@ionic/storage": "^2.2.0",
     "call-number": "^1.0.1",
-    "cordova-android": "^8.1.0",
+    "cordova-android": "8.1.0",
     "cordova-browser": "6.0.0",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.6.2",
     "cordova-sqlite-storage": "^5.0.0",
     "core-js": "^2.5.4",
     "firebase": "^7.12.0",
+    "mx.ferreyra.callnumber": "0.0.2",
     "phonegap-plugin-barcodescanner": "^8.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
@@ -92,7 +96,8 @@
         "PLAY_SERVICES_VERSION": "15.0.1",
         "ANDROID_SUPPORT_V4_VERSION": "27.+"
       },
-      "mx.ferreyra.callnumber": {}
+      "mx.ferreyra.callnumber": {},
+      "call-number": {}
     },
     "platforms": [
       "browser",

@@ -7,6 +7,8 @@ import { UserService } from '../../services/api/user/user.service';
 import { AllergyService } from '../../services/api/allergy/allergy.service';
 import { Observable } from 'rxjs';
 import { IListAllergyDto, IAllergy} from 'src/app/_models/AllergyDto';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 @Component({
   selector: 'app-profile',
@@ -15,17 +17,21 @@ import { IListAllergyDto, IAllergy} from 'src/app/_models/AllergyDto';
 })
 export class ProfileComponent implements OnInit {
 
-  user : BaseDto<IUserDto>;
+  // user : BaseDto<IUserDto>;
   allergies : BaseDto<IAllergy[]>;
   allergyIds : Array<number> = [];
   error = '';
   loading = false;
   isLoaded = false;
   uid : string;
+  isLogin: boolean = false;
+  public user: any;
+  public authState$: Observable<any>;
 
   constructor(
     public userService: UserService,
     public allergyService: AllergyService,
+    public auth: AngularFireAuth,
     private storage: Storage,
   ) { }
 
@@ -33,31 +39,27 @@ export class ProfileComponent implements OnInit {
     // this.getUserProfile();
 
     this.getUser();
-    this.getAllAllergies()
+    // this.getAllAllergies()
   }
 
   getUser(){
-    this.storage.get('uid').then((val) =>{
-      let trimVal = val.replace(/^"(.+(?="$))"$/, '$1');
-      this.uid = trimVal;
-        this.userService.GetUserByUid(trimVal)
-        .pipe(first())
-        .subscribe(
-          data => {
-            this.isLoaded = true;
-            this.user = data;
-          },
-          error => {
-              this.error = error;
-              this.loading = false;
-          });
+    this.user = null;
+    this.authState$ = this.auth.authState;
+    this.authState$.subscribe( (user: any) => {
+      if (user !== null) {
+        this.user = user;
+        this.isLogin = true;
+        this.isLoaded = true;
+
+        this.getAllAllergies(this.user.uid);
+      }
     });
   }
 
-  async getAllAllergies(){
-    await this.storage.get('uid').then((val) =>{
-      let trimVal = val.replace(/^"(.+(?="$))"$/, '$1');
-      this.allergyService.GetUserAllergies(trimVal)
+  async getAllAllergies(uid:string){
+    
+      let trimVal = uid.replace(/^"(.+(?="$))"$/, '$1');
+      await this.allergyService.GetUserAllergies(trimVal)
       .pipe(first())
       .subscribe(
         data => {
@@ -68,7 +70,7 @@ export class ProfileComponent implements OnInit {
             this.error = error;
             this.loading = false;
         });
-    });
+    
   }
 
   getUserAllAllergies(){
@@ -89,9 +91,9 @@ export class ProfileComponent implements OnInit {
       }       
     });
     
-    await this.storage.get('uid').then((val) =>{
-      let trimVal = val.replace(/^"(.+(?="$))"$/, '$1');
-      this.allergyService.UpdateUserAllergies(trimVal,this.allergyIds)
+    
+      let trimVal = this.user.uid.replace(/^"(.+(?="$))"$/, '$1');
+      await this.allergyService.UpdateUserAllergies(trimVal,this.allergyIds)
       .pipe(first())
       .subscribe(
         data => {
@@ -101,6 +103,6 @@ export class ProfileComponent implements OnInit {
             this.error = error;
             this.loading = false;
         });
-    });
+    
   }
 }
