@@ -56,17 +56,17 @@ export class ProductComponent implements OnInit {
   async ngOnInit() {
     this.barcode = this.activatedRoute.snapshot.paramMap.get('id');
     
-    // await this.getGeolocation();
+    await this.getGeolocation();
     await this.getProduct();
 
-    // await this.platform.ready();
-    // await this.loadMap();
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   async ionViewDidLoad() {
-    await this.getGeolocation();
-    await this.platform.ready();
-    await this.loadMap();
+    // await this.getGeolocation();
+    // await this.platform.ready();
+    // await this.loadMap();
   }
 
   private async getProduct(){
@@ -138,7 +138,8 @@ export class ProductComponent implements OnInit {
     this.geolocation.getCurrentPosition().then((resp) => {
       this.lat = resp.coords.latitude
       this.lon = resp.coords.longitude
-
+      console.log(this.lat)
+      console.log(this.lon)
           // This code is necessary for browser
     Environment.setEnv({
       'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyDUuCAPaEZJmWiTOfRaos2gwZNNbS3kHO8',
