@@ -38,19 +38,9 @@ export class LoginComponent implements OnInit {
   }
 
   async loginWithGoogle() {
-    // this.presentLoadingDefault();
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'crescent',
-      message: 'loading...'
-    });
-  
-    await this.loading.present();
-
+    this.presentLoadingDefault();
     this.socialLogin(new auth.GoogleAuthProvider(), 'google');
-    this.navigate();
-    // this.dismissLoading();
-    this.loading.dismiss();
-    // this.auth.auth.signInWithPopup(new auth.GoogleAuthProvider());
+    this.dismissLoading();
   }
   
   public navigate(): void{

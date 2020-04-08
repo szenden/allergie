@@ -97,7 +97,7 @@ export class ProfileComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          window.location.reload();
+          //window.location.reload();
         },
         error => {
             this.error = error;

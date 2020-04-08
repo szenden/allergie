@@ -59,14 +59,14 @@ export class ProductComponent implements OnInit {
     await this.getGeolocation();
     await this.getProduct();
 
-    await this.platform.ready();
-    await this.loadMap();
-  }
-
-  async ionViewDidLoad() {
-    // await this.getGeolocation();
     // await this.platform.ready();
     // await this.loadMap();
+  }
+
+  async ionViewDidEnter() {
+    // await this.getGeolocation();
+    await this.platform.ready();
+    await this.loadMap();
   }
 
   private async getProduct(){
